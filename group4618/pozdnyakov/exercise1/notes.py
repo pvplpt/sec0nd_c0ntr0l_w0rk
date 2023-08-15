@@ -21,3 +21,7 @@ def write_file(list_notes, file_name):
             print(';'.join(note), file=text_file)
 
 
+def write_note_to_end_file(note, file_name):
+    with open(file_name, 'a', encoding='utf-8') as text_file:
+        print(';'.join(note), file=text_file)
+
