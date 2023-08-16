@@ -25,3 +25,12 @@ def write_note_to_end_file(note, file_name):
     with open(file_name, 'a', encoding='utf-8') as text_file:
         print(';'.join(note), file=text_file)
 
+
+def sort_key(lst):
+    return int(lst[0])
+
+
+def sort_by_id(list_notes):
+    return sorted(list_notes, key=sort_key)
+
+
