@@ -34,3 +34,11 @@ def sort_by_id(list_notes):
     return sorted(list_notes, key=sort_key)
 
 
+def filter_by_date(list_notes, date_filter):
+    result = []
+    for note in list_notes:
+        if note[-1].split()[0] == date_filter:
+            result.append(note)
+    return result
+
+
