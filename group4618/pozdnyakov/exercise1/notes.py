@@ -58,3 +58,8 @@ def print_note(note, style='simple'):
         print('\n'.join(note))
 
 
+def print_list_notes(list_notes, style_list='simple'):
+    for note in list_notes:
+        print_note(note, style=style_list)
+
+
