@@ -42,3 +42,19 @@ def filter_by_date(list_notes, date_filter):
     return result
 
 
+def print_note(note, style='simple'):
+    if style == 'simple':
+        print('', note[1], note[2], sep='\n')
+    elif style == 'txt':
+        print('\nИдентификатор заметки =', note[0])
+        print('Заголовок заметки =', note[1])
+        print('Тело заметки =', note[2])
+        print('Дата заметки =', note[3])
+    elif style == 'json':
+        print(f'{{\"id\":{note[0]},\"title\":\"{note[1]}\",\"body\":\"{note[2]}\",\"date\":\"{note[3]}\"}}')
+    elif style == 'csv':
+        print(';'.join(note))
+    else:
+        print('\n'.join(note))
+
+
