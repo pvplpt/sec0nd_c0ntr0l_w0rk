@@ -4,6 +4,7 @@
 читать список заметок, редактировать заметку, удалять заметку.
 """
 from datetime import datetime
+from json import dumps
 
 file_path = 'notes.csv'
 
@@ -43,20 +44,25 @@ def filter_by_date(list_notes, date_filter):
     return result
 
 
-def print_note(note, style='simple'):
+def note_to_string(note, style='simple'):
     if style == 'simple':
-        print('', note[1], note[2], sep='\n')
-    elif style == 'txt':
-        print('\nИдентификатор заметки =', note[0])
-        print('Заголовок заметки =', note[1])
-        print('Тело заметки =', note[2])
-        print('Дата заметки =', note[3])
-    elif style == 'json':
-        print(f'{{\"id\":{note[0]},\"title\":\"{note[1]}\",\"body\":\"{note[2]}\",\"date\":\"{note[3]}\"}}')
-    elif style == 'csv':
-        print(';'.join(note))
-    else:
-        print('\n'.join(note))
+        return '\n'.join(note[1:3])
+    if style == 'txt':
+        result = 'Идентификатор заметки = ' + note[0] + '\n'
+        result += 'Заголовок заметки = ' + note[1] + '\n'
+        result += 'Тело заметки = ' + note[2] + '\n'
+        result += 'Дата заметки = ' + note[3] + '\n'
+        return result
+    if style == 'json':
+        columns = ['id', 'title', 'body', 'timestamp']
+        return dumps(dict(zip(columns, note)))
+    if style == 'csv':
+        return ';'.join(note)
+    return '\n'.join(note)
+
+
+def print_note(note, style='simple'):
+    print(note_to_string(note, style))
 
 
 def print_list_notes(list_notes, style_list='simple'):
