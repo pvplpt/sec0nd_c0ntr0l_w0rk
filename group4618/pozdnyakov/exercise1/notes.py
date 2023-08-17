@@ -3,6 +3,7 @@
 Программа должна уметь создавать заметку, сохранять её,
 читать список заметок, редактировать заметку, удалять заметку.
 """
+from datetime import datetime
 
 file_path = 'notes.csv'
 
@@ -65,5 +66,9 @@ def print_list_notes(list_notes, style_list='simple'):
 
 def next_id(list_notes):
     return int(list_notes[-1][0]) + 1
+
+
+def date_time_now():
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
