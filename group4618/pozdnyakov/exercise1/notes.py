@@ -78,3 +78,23 @@ def date_time_now():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
+def main():
+    choice = ''
+    while choice != '0':
+        choice = input("""
+        Выберите действие:
+        1. Добавить заметку
+        ---
+        0. Выход
+        """)
+        if choice == '1':
+            new_note = list()
+            new_note.append(str(next_id(read_file(file_path))))
+            new_note.append(input('Введите заголовок заметки: '))
+            new_note.append(input('Введите тело заметки: '))
+            new_note.append(date_time_now())
+            write_note_to_end_file(new_note, file_path)
+            print('Заметка успешно сохранена')
+
+
+main()
