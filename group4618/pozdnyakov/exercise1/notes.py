@@ -63,3 +63,7 @@ def print_list_notes(list_notes, style_list='simple'):
         print_note(note, style=style_list)
 
 
+def next_id(list_notes):
+    return int(list_notes[-1][0]) + 1
+
+
