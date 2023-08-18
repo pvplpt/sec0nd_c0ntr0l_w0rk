@@ -5,27 +5,29 @@
 """
 from datetime import datetime
 from json import dumps
+from io import StringIO
+import csv
 
 file_path = 'notes.csv'
 
 
 def read_file(file_name):
     result = []
-    with open(file_name, 'r', encoding='utf-8') as text_file:
-        for line in text_file:
-            result.append(line.strip().split(';'))
+    with open(file_name, 'r', encoding='utf-8', newline='') as text_file:
+        note_reader = csv.reader(text_file, delimiter=';')
+        for note in note_reader:
+            result.append(note)
     return result
 
 
 def write_file(list_notes, file_name):
-    with open(file_name, 'w', encoding='utf-8') as text_file:
-        for note in list_notes:
-            print(';'.join(note), file=text_file)
+    with open(file_name, 'w', encoding='utf-8', newline='') as text_file:
+        csv.writer(text_file, delimiter=';').writerows(list_notes)
 
 
 def write_note_to_end_file(note, file_name):
-    with open(file_name, 'a', encoding='utf-8') as text_file:
-        print(';'.join(note), file=text_file)
+    with open(file_name, 'a', encoding='utf-8', newline='') as text_file:
+        csv.writer(text_file, delimiter=';').writerow(note)
 
 
 def sort_key(lst):
@@ -51,18 +53,20 @@ def note_to_string(note, style='simple'):
         result = 'Идентификатор заметки = ' + note[0] + '\n'
         result += 'Заголовок заметки = ' + note[1] + '\n'
         result += 'Тело заметки = ' + note[2] + '\n'
-        result += 'Дата заметки = ' + note[3] + '\n'
+        result += 'Дата заметки = ' + note[3]
         return result
     if style == 'json':
         columns = ['id', 'title', 'body', 'timestamp']
-        return dumps(dict(zip(columns, note)))
+        return dumps(dict(zip(columns, note)), ensure_ascii=False)
     if style == 'csv':
-        return ';'.join(note)
+        output = StringIO()
+        csv.writer(output, delimiter=';', lineterminator='').writerow(note)
+        return output.getvalue()
     return '\n'.join(note)
 
 
 def print_note(note, style='simple'):
-    print(note_to_string(note, style))
+    print(note_to_string(note, style), '\n')
 
 
 def print_list_notes(list_notes, style_list='simple'):
@@ -98,3 +102,4 @@ def main():
 
 
 main()
+
