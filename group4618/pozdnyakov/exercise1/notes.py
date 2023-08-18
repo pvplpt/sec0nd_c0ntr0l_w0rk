@@ -82,12 +82,19 @@ def date_time_now():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
+def show_all_notes(file_name, style_show='simple'):
+    print_list_notes(read_file(file_name), style_list=style_show)
+
+
 def main():
     choice = ''
+    style_view = 'simple'
     while choice != '0':
         choice = input("""
         Выберите действие:
         1. Добавить заметку
+        2. Показать все заметки
+        3. Сменить стиль отображения заметок 
         ---
         0. Выход
         """)
@@ -99,7 +106,13 @@ def main():
             new_note.append(date_time_now())
             write_note_to_end_file(new_note, file_path)
             print('Заметка успешно сохранена')
+        elif choice == '2':
+            print('Все заметки:')
+            show_all_notes(file_path, style_view)
+        elif choice == '3':
+            print('Текущий стиль отображения:', style_view)
+            style_view = input('Введите стиль отображения simple, csv, json, txt: ')
+
 
 
 main()
-
