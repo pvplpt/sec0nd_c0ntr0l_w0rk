@@ -75,7 +75,10 @@ def print_list_notes(list_notes, style_list='simple'):
 
 
 def next_id(list_notes):
-    return int(list_notes[-1][0]) + 1
+    if len(list_notes) > 0:
+        return int(list_notes[-1][0]) + 1
+    else:
+        return 1
 
 
 def date_time_now():
@@ -90,6 +93,26 @@ def del_last_note(file_name):
     write_file(read_file(file_name)[:-1], file_name)
 
 
+def replace_last_note(note, file_name):
+    list_notes = read_file(file_name)
+    if len(list_notes) > 0:
+        list_notes[-1] = note
+        write_file(list_notes, file_name)
+
+
+def edit_note(note):
+    result = list()
+    result.append(note[0])
+    answer = input('Планируете сментить заголовок (y/n)?')
+    if answer.lower() == 'y':
+        result.append(input('Введите новый заголовок заметки: '))
+    else:
+        result.append(note[1])
+    result.append(input('Введите новое тело заметки: '))
+    result.append(date_time_now())
+    return result
+
+
 def main():
     choice = ''
     style_view = 'simple'
@@ -100,6 +123,7 @@ def main():
         2. Показать все заметки
         3. Сменить стиль отображения заметок
         4. Удалить последнюю заметку 
+        5. Редактировать последнюю заметку
         ---
         0. Выход
         """)
@@ -120,6 +144,16 @@ def main():
         elif choice == '4':
             del_last_note(file_path)
             print('Последняя заметка удалена.')
+        elif choice == '5':
+            list_notes = read_file(file_path)
+            if len(list_notes) > 0:
+                old_note = list_notes[-1]
+                print('Последняя заметка:')
+                print_note(old_note)
+                replace_last_note(edit_note(old_note), file_path)
+                print('Последняя заметка отредактирована')
+            else:
+                print('Нет заметок для редактирования')
 
 
 main()
