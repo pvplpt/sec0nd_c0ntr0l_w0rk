@@ -86,6 +86,10 @@ def show_all_notes(file_name, style_show='simple'):
     print_list_notes(read_file(file_name), style_list=style_show)
 
 
+def del_last_note(file_name):
+    write_file(read_file(file_name)[:-1], file_name)
+
+
 def main():
     choice = ''
     style_view = 'simple'
@@ -94,7 +98,8 @@ def main():
         Выберите действие:
         1. Добавить заметку
         2. Показать все заметки
-        3. Сменить стиль отображения заметок 
+        3. Сменить стиль отображения заметок
+        4. Удалить последнюю заметку 
         ---
         0. Выход
         """)
@@ -112,7 +117,9 @@ def main():
         elif choice == '3':
             print('Текущий стиль отображения:', style_view)
             style_view = input('Введите стиль отображения simple, csv, json, txt: ')
-
+        elif choice == '4':
+            del_last_note(file_path)
+            print('Последняя заметка удалена.')
 
 
 main()
