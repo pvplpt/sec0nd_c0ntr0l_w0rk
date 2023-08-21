@@ -121,6 +121,16 @@ def date_now(day=0):
     return (datetime.now()-timedelta(days=day)).strftime('%Y-%m-%d')
 
 
+def show_note_by_id(file_name, note_id, style_show):
+    list_notes = read_file(file_name)
+    dict_id = {note[0]: i for i, note in enumerate(list_notes)}
+    index_row = dict_id.get(note_id, -1)
+    if index_row == -1:
+        print('отсутствует')
+    else:
+        print_note(list_notes[index_row], style_show)
+
+
 def main():
     choice = ''
     style_view = 'simple'
@@ -133,6 +143,7 @@ def main():
         4. Удалить последнюю заметку 
         5. Редактировать последнюю заметку
         6. Показать заметки по дате
+        7. Показать заметку по id
         ---
         0. Выход
         """)
@@ -180,8 +191,12 @@ def main():
                 user_date = date_now(2)
             else:
                 user_date = date_now()
-            print('Заметки за', user_date)
+            print(f'Заметки за {user_date}:')
             show_notes_filter_by_date(file_path, user_date, style_view)
+        elif choice == '7':
+            user_id = input('Введите id заметки: ')
+            print(f'Заметка c id={user_id}:')
+            show_note_by_id(file_path, user_id, style_view)
 
 
 main()
