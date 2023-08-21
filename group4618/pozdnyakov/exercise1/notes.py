@@ -3,7 +3,7 @@
 Программа должна уметь создавать заметку, сохранять её,
 читать список заметок, редактировать заметку, удалять заметку.
 """
-from datetime import datetime
+from datetime import datetime, timedelta
 from json import dumps
 from io import StringIO
 import csv
@@ -113,6 +113,14 @@ def edit_note(note):
     return result
 
 
+def show_notes_filter_by_date(file_name, filter_date, style_show='simple'):
+    print_list_notes(filter_by_date(read_file(file_name), filter_date), style_list=style_show)
+
+
+def date_now(day=0):
+    return (datetime.now()-timedelta(days=day)).strftime('%Y-%m-%d')
+
+
 def main():
     choice = ''
     style_view = 'simple'
@@ -124,6 +132,7 @@ def main():
         3. Сменить стиль отображения заметок
         4. Удалить последнюю заметку 
         5. Редактировать последнюю заметку
+        6. Показать заметки по дате
         ---
         0. Выход
         """)
@@ -154,6 +163,25 @@ def main():
                 print('Последняя заметка отредактирована')
             else:
                 print('Нет заметок для редактирования')
+        elif choice == '6':
+            answer = input("""
+            Показать заметки:
+            1. за сегодня
+            2. за вчера
+            3. за позавчера
+            4. сам введу дату в формате ГГГГ-ММ-ДД
+            """)
+            user_date = ''
+            if answer == '4':
+                user_date = input('Введите дату (ГГГГ-ММ-ДД): ')
+            elif answer == '2':
+                user_date = date_now(1)
+            elif answer == '3':
+                user_date = date_now(2)
+            else:
+                user_date = date_now()
+            print('Заметки за', user_date)
+            show_notes_filter_by_date(file_path, user_date, style_view)
 
 
 main()
