@@ -170,6 +170,10 @@ def show_head_notes(file_name, n, style_show):
     print_list_notes(read_file(file_name)[:n], style_show)
 
 
+def show_tail_notes(file_name, n, style_show):
+    print_list_notes(read_file(file_name)[-n:], style_show)
+
+
 def main():
     choice = ''
     style_view = 'simple'
@@ -186,6 +190,7 @@ def main():
         8. Редактировать заметку по id
         9. Удалить заметку по id
         10. Показать n первых заметок
+        11. Показать n последних заметок
         ---
         0. Выход
         """)
@@ -249,6 +254,9 @@ def main():
         elif choice == '10':
             k = input_natural_number('Введите количеcтво заметок: ')
             show_head_notes(file_path, k, style_view)
+        elif choice == '11':
+            k = input_natural_number('Введите количеcтво заметок: ')
+            show_tail_notes(file_path, k, style_view)
 
 
 main()
