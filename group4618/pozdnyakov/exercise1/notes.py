@@ -135,6 +135,17 @@ def show_note_by_id(file_name, note_id, style_show):
         print_note(list_notes[index_row], style_show)
 
 
+def del_note_by_id(file_name, note_id):
+    list_notes = read_file(file_name)
+    index_row = index_row_by_id(list_notes, note_id)
+    if index_row == -1:
+        print('отсутствует')
+    else:
+        new_list_notes = list_notes[:index_row] + list_notes[index_row + 1:]
+        write_file(new_list_notes, file_name)
+        print('удалена')
+
+
 def replace_note_by_id(file_name, note_id):
     list_notes = read_file(file_name)
     index_row = index_row_by_id(list_notes, note_id)
@@ -160,6 +171,7 @@ def main():
         6. Показать заметки по дате
         7. Показать заметку по id
         8. Редактировать заметку по id
+        9. Удалить заметку по id
         ---
         0. Выход
         """)
@@ -216,6 +228,10 @@ def main():
         elif choice == '8':
             user_id = input('Введите id заметки: ')
             replace_note_by_id(file_path, user_id)
+        elif choice == '9':
+            user_id = input('Введите id заметки: ')
+            print(f'Заметка c id={user_id}:')
+            del_note_by_id(file_path, user_id)
 
 
 main()
