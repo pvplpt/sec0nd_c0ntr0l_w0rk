@@ -121,14 +121,29 @@ def date_now(day=0):
     return (datetime.now()-timedelta(days=day)).strftime('%Y-%m-%d')
 
 
+def index_row_by_id(list_notes, note_id):
+    dict_id = {note[0]: i for i, note in enumerate(list_notes)}
+    return dict_id.get(note_id, -1)
+
+
 def show_note_by_id(file_name, note_id, style_show):
     list_notes = read_file(file_name)
-    dict_id = {note[0]: i for i, note in enumerate(list_notes)}
-    index_row = dict_id.get(note_id, -1)
+    index_row = index_row_by_id(list_notes, note_id)
     if index_row == -1:
         print('отсутствует')
     else:
         print_note(list_notes[index_row], style_show)
+
+
+def replace_note_by_id(file_name, note_id):
+    list_notes = read_file(file_name)
+    index_row = index_row_by_id(list_notes, note_id)
+    if index_row == -1:
+        print(f'Заметка c id={note_id} отсутствует')
+    else:
+        list_notes[index_row] = edit_note(list_notes[index_row])
+        write_file(list_notes, file_name)
+        print(f'Заметка c id={note_id} отредактирована')
 
 
 def main():
@@ -144,6 +159,7 @@ def main():
         5. Редактировать последнюю заметку
         6. Показать заметки по дате
         7. Показать заметку по id
+        8. Редактировать заметку по id
         ---
         0. Выход
         """)
@@ -197,6 +213,9 @@ def main():
             user_id = input('Введите id заметки: ')
             print(f'Заметка c id={user_id}:')
             show_note_by_id(file_path, user_id, style_view)
+        elif choice == '8':
+            user_id = input('Введите id заметки: ')
+            replace_note_by_id(file_path, user_id)
 
 
 main()
