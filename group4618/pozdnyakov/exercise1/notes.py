@@ -157,6 +157,19 @@ def replace_note_by_id(file_name, note_id):
         print(f'Заметка c id={note_id} отредактирована')
 
 
+def input_natural_number(msg):
+    num = input(msg)
+    try:
+        n = int(num)
+        return n if n > 0 else 10
+    except ValueError:
+        return 10
+
+
+def show_head_notes(file_name, n, style_show):
+    print_list_notes(read_file(file_name)[:n], style_show)
+
+
 def main():
     choice = ''
     style_view = 'simple'
@@ -172,6 +185,7 @@ def main():
         7. Показать заметку по id
         8. Редактировать заметку по id
         9. Удалить заметку по id
+        10. Показать n первых заметок
         ---
         0. Выход
         """)
@@ -232,6 +246,9 @@ def main():
             user_id = input('Введите id заметки: ')
             print(f'Заметка c id={user_id}:')
             del_note_by_id(file_path, user_id)
+        elif choice == '10':
+            k = input_natural_number('Введите количеcтво заметок: ')
+            show_head_notes(file_path, k, style_view)
 
 
 main()
