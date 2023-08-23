@@ -183,6 +183,12 @@ def export_to_json(list_notes, file_name):
         dump(data, text_file, ensure_ascii=False)
 
 
+def export_to_csv(list_notes, file_name):
+    columns = ['id', 'title', 'body', 'timestamp']
+    list_notes.insert(0, columns)
+    write_file(list_notes, file_name)
+
+
 def main():
     choice = ''
     style_view = 'simple'
@@ -201,6 +207,7 @@ def main():
         10. Показать n первых заметок
         11. Показать n последних заметок
         12. Экспорт заметок в json-файл
+        13. Экспорт заметок в csv-файл
         ---
         0. Выход
         """)
@@ -269,6 +276,8 @@ def main():
             show_tail_notes(file_path, k, style_view)
         elif choice == '12':
             export_to_json(read_file(file_path), 'out_notes.json')
+        elif choice == '13':
+            export_to_csv(read_file(file_path), 'out_notes.csv')
 
 
 main()
