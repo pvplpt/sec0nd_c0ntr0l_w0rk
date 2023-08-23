@@ -4,7 +4,7 @@
 читать список заметок, редактировать заметку, удалять заметку.
 """
 from datetime import datetime, timedelta
-from json import dumps
+from json import dumps, dump
 from io import StringIO
 import csv
 
@@ -174,6 +174,15 @@ def show_tail_notes(file_name, n, style_show):
     print_list_notes(read_file(file_name)[-n:], style_show)
 
 
+def export_to_json(list_notes, file_name):
+    columns = ['id', 'title', 'body', 'timestamp']
+    data = list()
+    for note in list_notes:
+        data.append(dict(zip(columns, note)))
+    with open(file_name, 'w', encoding='utf-8') as text_file:
+        dump(data, text_file, ensure_ascii=False)
+
+
 def main():
     choice = ''
     style_view = 'simple'
@@ -191,6 +200,7 @@ def main():
         9. Удалить заметку по id
         10. Показать n первых заметок
         11. Показать n последних заметок
+        12. Экспорт заметок в json-файл
         ---
         0. Выход
         """)
@@ -257,6 +267,8 @@ def main():
         elif choice == '11':
             k = input_natural_number('Введите количеcтво заметок: ')
             show_tail_notes(file_path, k, style_view)
+        elif choice == '12':
+            export_to_json(read_file(file_path), 'out_notes.json')
 
 
 main()
